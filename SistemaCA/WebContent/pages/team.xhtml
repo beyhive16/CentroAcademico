@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/modeloPadrao.xhtml">
+
+	<ui:define name="menu">
+		<ui:include src="/includes/menu.xhtml">
+		</ui:include>
+	</ui:define>
+
+	<ui:define name="conteudo">
+	
+	<h:form id="form1">
+	
+	<p:dataTable id="dtAdm" emptyMessage="Nenhum Registro Encontrado!"
+	value="#{MBAdministradores.itens}"
+	var="item"
+	paginator="true"
+	rows="9"
+	>
+    
+    <f:facet name="header">Lista de Integrantes do C.A.</f:facet>
+    
+    <p:column headerText="Código" sortBy="#{item.codigo}" filterBy="#{item.codigo}">
+        <h:outputText value="#{item.codigo}" />
+    </p:column>
+ 
+    <p:column headerText="Nome" sortBy="#{item.nome}" filterBy="#{item.nome}">
+        <h:outputText value="#{item.nome}" />
+    </p:column>
+    
+    <p:column headerText="Opções">
+        <p:commandButton icon="ui-icon-trash" actionListener="#{MBAdministradores.excluir(item)}" update=":form1:dtAdm :msgGlobal"/>
+    </p:column>
+    	
+    	<f:facet name="footer">
+    	<p:commandButton value="Novo" actionListener="#{MBAdministradores.prepararNovo}"
+    	oncomplete="PF('dlgAdmNovo').show();" update=":form2:pn1"/>
+    	</f:facet>
+    	
+</p:dataTable>
+</h:form>
+
+<p:dialog widgetVar="dlgAdmNovo" closable="false" draggable="false" resizable="false"
+header="Adicionar Integrante" modal="true" appendTo="@(body)">
+
+<h:form id="form2">
+<h:panelGrid id="pn1" columns="2">
+<p:outputLabel value="Nome:"/>
+<h:inputText size="50" maxlength="50" value="#{MBAdministradores.adms.nome}"/>
+</h:panelGrid>
+<h:panelGrid columns="2">
+<p:commandButton value="Gravar" actionListener="#{MBAdministradores.novo}" 
+oncomplete="PF('dlgAdmNovo').hide();" update=":form1:dtAdm :msgGlobal">
+</p:commandButton>
+<p:commandButton value="Cancelar" onclick="PF('dlgAdmNovo').hide();"/>
+</h:panelGrid>
+</h:form>
+</p:dialog>
+
+</ui:define>
+	
+</ui:composition>
