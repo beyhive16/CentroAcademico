@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 
 import br.com.cacomp.conexao.Conexao;
 import br.com.cacomp.domain.Administradores;
+import br.com.cacomp.domain.Alunos;
 
 public class AdministradoresDAO {
 	public void salvar(Administradores adm) throws SQLException {
@@ -21,9 +22,25 @@ public class AdministradoresDAO {
 		sql.append("VALUES (?)");
 
 		Connection conexao = Conexao.conectar();
-
 		PreparedStatement comando = conexao.prepareStatement(sql.toString());
 		comando.setString(1, adm.getNome());
+		salvarADMS(adm);
+		comando.executeUpdate();
+	}
+	
+	public void salvarADMS(Administradores adm) throws SQLException {
+		StringBuilder sql = new StringBuilder();
+		sql.append("INSERT INTO usuarios ");
+		sql.append("(login), (senha)");
+		sql.append("VALUES (?), (?)");
+		Alunos aln = new Alunos();
+		AlunosDAO alnDAO = new AlunosDAO();
+		Connection conexao = Conexao.conectar();
+		aln = alnDAO.buscaADMS(adm);
+		PreparedStatement comando = conexao.prepareStatement(sql.toString());
+		
+		comando.setInt(1, aln.getMatricula());
+		comando.setInt(2, aln.getMatricula());
 		comando.executeUpdate();
 	}
 
@@ -99,7 +116,11 @@ public class AdministradoresDAO {
 
 		return retorno;
 	}
-
+	
+	/*public Administradores autenticar(Administradores adm){
+		
+	}*/
+	
 	public static void main(String[] args) {
 		Administradores adm1 = new Administradores();
 		Administradores adm2 = new Administradores();
@@ -119,4 +140,5 @@ public class AdministradoresDAO {
 		}
 
 	}
+	
 }

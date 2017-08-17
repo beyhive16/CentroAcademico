@@ -6,23 +6,21 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-	<h:form>
+	<h:form >
 		<p:menubar>
 			<p:submenu label="Arquivo">
-				<p:menuitem value="Aluno Online" url="#" />
+				<p:menuitem value="Aluno Online" />
 				<p:menuitem value="Perfil" url="#" />
 				<p:menuitem value="Sair" url="#" />
 			</p:submenu>
 
 			<p:submenu label="Documentos">
-				<p:menuitem value="Carteira Estudantil" url="#" />
+				<p:menuitem value="Carteira Estudantil" url="/pages/Solicitacao.xhtml" />
 				<p:menuitem value="Calendario Letivo" url="#" />
 			</p:submenu>
 
 			<p:submenu label="Cursos">
-				<p:menuitem value="Curso1" url="#" />
-				<p:menuitem value="Curso2" url="#" />
-				<p:menuitem value="Curso3" url="#" />
+				<p:menuitem value="Realizar Matrícula" outcome="/pages/curso1.xhtml" />
 			</p:submenu>
 
 			<p:submenu label="Eventos">
@@ -36,9 +34,11 @@
 			</p:submenu>
 
 			<p:submenu label="Equipe">
+				<p:menuitem value="Integrantes" outcome="/pages/team.xhtml"/>
 			</p:submenu>
 
 			<p:submenu label="Contato">
+			<p:menuitem value="Enviar Mensagem" outcome="/pages/contato.xhtml"/>
 			</p:submenu>
 
 		</p:menubar>

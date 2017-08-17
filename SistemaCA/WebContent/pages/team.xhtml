@@ -17,10 +17,12 @@
 	<h:form id="form1">
 	
 	<p:dataTable id="dtAdm" emptyMessage="Nenhum Registro Encontrado!"
+	widgetVar="tblAdms"
 	value="#{MBAdministradores.itens}"
 	var="item"
+	filteredValue="#{MBAdministradores.itensFiltrados}"
 	paginator="true"
-	rows="9"
+	rows="5"
 	>
     
     <f:facet name="header">Lista de Integrantes do C.A.</f:facet>
@@ -34,7 +36,11 @@
     </p:column>
     
     <p:column headerText="Opções">
-        <p:commandButton icon="ui-icon-trash" actionListener="#{MBAdministradores.excluir(item)}" update=":form1:dtAdm :msgGlobal"/>
+        <p:commandButton icon="ui-icon-trash" actionListener="#{MBAdministradores.excluir(item)}" 
+        update=":form1:dtAdm :msgGlobal"></p:commandButton>
+        
+        <p:commandButton icon="ui-icon-pencil" actionListener="#{MBAdministradores.preparaEditar(item)}" 
+        oncomplete="PF('dlgEditar').show();" update=":form3:pn3 :msgGlobal"></p:commandButton>
     </p:column>
     	
     	<f:facet name="footer">
@@ -55,10 +61,31 @@ header="Adicionar Integrante" modal="true" appendTo="@(body)">
 </h:panelGrid>
 <h:panelGrid columns="2">
 <p:commandButton value="Gravar" actionListener="#{MBAdministradores.novo}" 
-oncomplete="PF('dlgAdmNovo').hide();" update=":form1:dtAdm :msgGlobal">
+oncomplete="PF('dlgAdmNovo').hide(); PF('tblAdms').clearFilters();" update=":form1:dtAdm :msgGlobal">
 </p:commandButton>
 <p:commandButton value="Cancelar" onclick="PF('dlgAdmNovo').hide();"/>
 </h:panelGrid>
+</h:form>
+</p:dialog>
+
+<p:dialog widgetVar="dlgEditar" closable="false" draggable="false" resizable="false"
+header="Editar Integrante" modal="true" appendTo="@(body)">
+
+<h:form id="form3">
+<h:panelGrid id ="pn3" colums="2">
+<h:outputText value="Código"/>
+<h:outputText value="#{MBAdministradores.adms.codigo}"/>
+<h:outputText value="Nome"/>
+<h:inputText value="#{MBAdministradores.adms.nome}"/>
+</h:panelGrid>
+
+<h:panelGrid colums="2">
+<p:commandButton value="Editar" actionListener="#{MBAdministradores.editar}" 
+oncomplete="PF('dlgEditar').hide(); PF('tblAdms').clearFilters();" update=":form1:dtAdm :msgGlobal">
+</p:commandButton>
+<p:commandButton value="Cancelar" onclick="PF('dlgEditar').hide();"/>
+</h:panelGrid>
+
 </h:form>
 </p:dialog>
 
